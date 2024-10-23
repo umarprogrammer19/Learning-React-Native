@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList, StatusBar, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList, Alert, ScrollView } from "react-native";
 
 interface ItemProps {
   title: string;
@@ -52,21 +51,20 @@ export default function Index() {
       <TouchableOpacity style={TodoButton} onPress={addTodo}>
         <Text style={TodoButtonText}>Add Item</Text>
       </TouchableOpacity>
-      {todo.length > 0 && <View>
-        <SafeAreaView>
-          <FlatList
-            data={todo}
-            renderItem={({ item, index }) => {
-              return <Item title={item} index={index} />
-            }}
-          />
-        </SafeAreaView>
-      </View>}
+      {todo.length > 0 && <ScrollView style={TodoScrollView}>
+        <FlatList
+          data={todo}
+          renderItem={({ item, index }) => {
+            return <Item title={item} index={index} />
+          }}
+        />
+      </ScrollView>
+      }
     </View>
   );
 }
 
-const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoitem, TodoTitle, TodoDeleteButton, TodoDeleteButtonText } = StyleSheet.create({
+const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoitem, TodoTitle, TodoDeleteButton, TodoDeleteButtonText, TodoScrollView } = StyleSheet.create({
   TodoContainer: {
     flex: 1,
     backgroundColor: "black",
@@ -79,7 +77,8 @@ const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoi
   },
   TodoInput: {
     height: 40,
-    margin: 12,
+    marginHorizontal: 12,
+    marginVertical: 8,
     borderWidth: 3,
     borderColor: "yellow",
     padding: 10,
@@ -89,11 +88,14 @@ const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoi
     alignItems: 'center',
     backgroundColor: '#fff',
     height: 40,
-    margin: 12,
+    marginHorizontal: 12,
     padding: 7.75,
   },
   TodoButtonText: {
     fontSize: 18,
+  },
+  TodoScrollView: {
+    marginTop: 20,
   },
   Todoitem: {
     backgroundColor: '#f9c2ff',
