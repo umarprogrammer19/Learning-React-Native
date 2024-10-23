@@ -9,6 +9,9 @@ interface ItemProps {
 const Item = ({ title }: ItemProps) => (
   <View style={Todoitem}>
     <Text style={TodoTitle}>{title}</Text>
+    <TouchableOpacity style={TodoDeleteButton}>
+      <Text style={TodoDeleteButtonText}>Delete</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -20,10 +23,15 @@ export default function Index() {
   const [todo, setTodo] = useState<string[]>(["Hello"]);
 
   const addTodo = (): void => {
+    const isTodoExists = todo.some(item => item === text);
     if (text) {
-      todo.push(text);
-      setTodo([...todo]);
-      setText("");
+      if (!isTodoExists) {
+        todo.push(text);
+        setTodo([...todo]);
+        setText("");
+      } else {
+        Alert.alert("Message", "This Item Is Already Exists..");
+      }
     } else {
       Alert.alert("Message", "Please Enter An Item To Add...")
     }
@@ -40,17 +48,19 @@ export default function Index() {
         <SafeAreaView>
           <FlatList
             data={todo}
-            renderItem={({ item }) => <Item title={item} />}
+            renderItem={({ item }) => {
+              return <Item title={item} />
+            }}
             keyExtractor={index => index}
           />
+
         </SafeAreaView>
       </View>}
-
     </View>
   );
 }
 
-const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoitem, TodoTitle } = StyleSheet.create({
+const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoitem, TodoTitle, TodoDeleteButton, TodoDeleteButtonText } = StyleSheet.create({
   TodoContainer: {
     flex: 1,
     backgroundColor: "black",
@@ -81,7 +91,6 @@ const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoi
   },
   Todoitem: {
     backgroundColor: '#f9c2ff',
-    height: 45,
     marginHorizontal: 12,
     marginBottom: 15,
   },
@@ -90,4 +99,14 @@ const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoi
     marginTop: 8,
     fontSize: 20,
   },
+  TodoDeleteButton: {
+    backgroundColor: "blue",
+    margin: 10,
+  },
+  TodoDeleteButtonText: {
+    color: "white",
+    textAlign: "center",
+    padding: 5,
+    fontSize: 20,
+  }
 })
