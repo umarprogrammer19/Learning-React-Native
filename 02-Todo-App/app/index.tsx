@@ -29,10 +29,10 @@ export default function Index() {
   const [currentEditIndex, setCurrentEditIndex] = useState<number | null>(null);
 
   const addTodo = (): void => {
-    const isTodoExists = todo.some(item => item === text);
+    const isTodoExists = todo.some(item => item.trim() === text.trim());
     if (text) {
       if (!isTodoExists) {
-        todo.push(text);
+        todo.push(text.trim());
         setTodo([...todo]);
         setText("");
       } else {
