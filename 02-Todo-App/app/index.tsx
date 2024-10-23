@@ -6,8 +6,8 @@ interface ItemProps {
   index: number;
 }
 
-let deleteTodo: Function;
-let editTodo: Function;
+type Button = (index: number) => void;
+let deleteTodo: Button, editTodo: Button;
 
 const Item = ({ title, index }: ItemProps) => (
   <View style={styles.todoItem}>
