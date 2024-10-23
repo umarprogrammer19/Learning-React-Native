@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList, StatusBar } from "react-native";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList, StatusBar, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ItemProps {
@@ -20,8 +20,13 @@ export default function Index() {
   const [todo, setTodo] = useState<string[]>(["Hello"]);
 
   const addTodo = (): void => {
-    todo.push(text);
-    setTodo([...todo]);
+    if (text) {
+      todo.push(text);
+      setTodo([...todo]);
+      setText("");
+    } else {
+      Alert.alert("Message", "Please Enter An Item To Add...")
+    }
   }
 
   return (
