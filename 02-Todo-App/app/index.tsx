@@ -10,26 +10,21 @@ let deleteTodo: Function;
 let editTodo: Function;
 
 const Item = ({ title, index }: ItemProps) => (
-  <View style={styles.Todoitem}>
-    <Text style={styles.TodoTitle}>{title}</Text>
-    <TouchableOpacity style={styles.TodoDeleteButton} onPress={() => deleteTodo(index)}>
-      <Text style={styles.TodoDeleteButtonText}>Delete</Text>
+  <View style={styles.todoItem}>
+    <Text style={styles.todoTitle}>{title}</Text>
+    <TouchableOpacity style={styles.todoDeleteButton} onPress={() => deleteTodo(index)}>
+      <Text style={styles.todoDeleteButtonText}>Delete</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.TodoEditButton} onPress={() => editTodo(index)}>
-      <Text style={styles.TodoEditButtonText}>Edit</Text>
+    <TouchableOpacity style={styles.todoEditButton} onPress={() => editTodo(index)}>
+      <Text style={styles.todoEditButtonText}>Edit</Text>
     </TouchableOpacity>
   </View>
 );
 
 export default function Index() {
-
-  // State For Getting Text
   const [text, setText] = useState<string>("");
-  // State For Getting Todo List Items 
-  const [todo, setTodo] = useState<string[]>(["Hello"]);
-  // State For Update Todo
+  const [todo, setTodo] = useState<string[]>([]);
   const [updateInput, setUpdateInput] = useState<string>("");
-
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [currentEditIndex, setCurrentEditIndex] = useState<number | null>(null);
 
@@ -42,10 +37,10 @@ export default function Index() {
         setText("");
       } else {
         Alert.alert("Message", "This Item Already Exists.");
-      }
+      };
     } else {
-      Alert.alert("Message", "Please Enter An Item To Add.");
-    }
+      Alert.alert("Message", "Please Enter An Item To Add.")
+    };
   };
 
   deleteTodo = (index: number): void => {
@@ -70,150 +65,164 @@ export default function Index() {
   };
 
   return (
-    <View style={styles.TodoContainer}>
-      <Text style={styles.TodoHeading}>Todo App.</Text>
-      <TextInput
-        placeholder="Enter Todo"
-        style={styles.TodoInput}
-        value={text}
-        onChangeText={setText}
-      />
-      <TouchableOpacity style={styles.TodoButton} onPress={addTodo}>
-        <Text style={styles.TodoButtonText}>Add Item</Text>
+    <View style={styles.container}>
+      <Text style={styles.heading}>Todo App</Text>
+      <TextInput placeholder="Enter Todo" placeholderTextColor="#777" style={styles.input} value={text} onChangeText={setText} />
+      <TouchableOpacity style={styles.addButton} onPress={addTodo}>
+        <Text style={styles.addButtonText}>Add Item</Text>
       </TouchableOpacity>
-
       {todo.length > 0 && (
-        <ScrollView style={styles.TodoScrollView}>
-          <FlatList
-            data={todo}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => <Item title={item} index={index} />}
-          />
-        </ScrollView>
+        <FlatList
+          data={todo}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => <Item title={item} index={index} />}
+          contentContainerStyle={styles.scrollView}
+        />
       )}
-
-      <View style={styles.TodoCenteredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={styles.TodoCenteredView}>
-            <View style={styles.TodoModalView}>
-              <Text style={styles.TodoModalText}>Update Todo!</Text>
-              <TextInput
-                style={styles.TodoUpdateInput}
-                onChangeText={setUpdateInput}
-                value={updateInput}
-              />
-              <Pressable
-                style={[styles.TodoButton, { marginTop: 10 }]}
-                onPress={updateTodo}
-              >
-                <Text style={styles.TodoButtonText}>Update Todo</Text>
-              </Pressable>
-              <Pressable onPress={() => setModalVisible(false)}>
-                <Text style={{ color: "red", marginTop: 10 }}>Close</Text>
-              </Pressable>
-            </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Update Todo</Text>
+            <TextInput
+              style={styles.updateInput}
+              onChangeText={setUpdateInput}
+              value={updateInput}
+            />
+            <Pressable style={styles.modalButton} onPress={updateTodo}>
+              <Text style={styles.modalButtonText}>Update</Text>
+            </Pressable>
+            <Pressable onPress={() => setModalVisible(false)}>
+              <Text style={styles.closeButton}>Close</Text>
+            </Pressable>
           </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  TodoContainer: {
+  container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#1e1e1e",
     paddingTop: 20,
+    paddingHorizontal: 15,
   },
-  TodoHeading: {
+  heading: {
     textAlign: "center",
-    fontSize: 25,
-    color: "yellow",
-  },
-  TodoInput: {
-    height: 40,
-    marginHorizontal: 12,
-    marginVertical: 8,
-    borderWidth: 3,
-    borderColor: "yellow",
-    padding: 10,
-    color: "white",
-  },
-  TodoButton: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    height: 40,
-    marginHorizontal: 12,
-    padding: 7.75,
-  },
-  TodoButtonText: {
-    fontSize: 18,
-  },
-  TodoScrollView: {
-    marginTop: 20,
-  },
-  Todoitem: {
-    backgroundColor: '#f9c2ff',
-    marginHorizontal: 12,
+    fontSize: 28,
+    color: "#f5f5f5",
+    fontWeight: "bold",
     marginBottom: 15,
   },
-  TodoTitle: {
-    textAlign: "center",
-    marginTop: 8,
-    fontSize: 20,
+  input: {
+    height: 45,
+    borderWidth: 1,
+    borderColor: "#444",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    color: "#f5f5f5",
+    backgroundColor: "#2b2b2b",
+    marginBottom: 10,
   },
-  TodoDeleteButton: {
-    backgroundColor: "blue",
-    margin: 10,
-  },
-  TodoDeleteButtonText: {
-    color: "white",
-    textAlign: "center",
-    padding: 5,
-    fontSize: 20,
-  },
-  TodoEditButton: {
-    backgroundColor: "green",
-    margin: 10,
-  },
-  TodoEditButtonText: {
-    color: "white",
-    textAlign: "center",
-    padding: 5,
-    fontSize: 20,
-  },
-  TodoCenteredView: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  TodoModalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+  addButton: {
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
+    backgroundColor: '#6200ea',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  scrollView: {
+    marginTop: 20,
+  },
+  todoItem: {
+    backgroundColor: '#333',
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
   },
-  TodoModalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  todoTitle: {
+    color: "#f5f5f5",
+    fontSize: 18,
+    flex: 1,
   },
-  TodoUpdateInput: {
-    margin: 20,
-    width: 200,
+  todoDeleteButton: {
+    backgroundColor: "#ff3b30",
+    borderRadius: 6,
+    padding: 8,
+    marginLeft: 10,
+  },
+  todoDeleteButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  todoEditButton: {
+    backgroundColor: "#34c759",
+    borderRadius: 6,
+    padding: 8,
+    marginLeft: 10,
+  },
+  todoEditButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalView: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 20,
+    width: 300,
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  updateInput: {
+    width: "100%",
     borderWidth: 1,
-  }
+    borderColor: "#444",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 15,
+  },
+  modalButton: {
+    backgroundColor: "#6200ea",
+    borderRadius: 8,
+    padding: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  closeButton: {
+    color: "#ff3b30",
+    marginTop: 15,
+  },
 });
