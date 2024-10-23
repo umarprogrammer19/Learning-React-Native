@@ -4,13 +4,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ItemProps {
   title: string;
+  index: number;
 }
 
-const Item = ({ title }: ItemProps) => (
+let deleteTodo: Function;
+
+const Item = ({ title, index }: ItemProps) => (
   <View style={Todoitem}>
     <Text style={TodoTitle}>{title}</Text>
     <TouchableOpacity style={TodoDeleteButton}>
-      <Text style={TodoDeleteButtonText}>Delete</Text>
+      <Text style={TodoDeleteButtonText} onPress={() => deleteTodo(index)}>Delete</Text>
     </TouchableOpacity>
   </View>
 );
@@ -31,10 +34,15 @@ export default function Index() {
         setText("");
       } else {
         Alert.alert("Message", "This Item Is Already Exists..");
-      }
+      };
     } else {
       Alert.alert("Message", "Please Enter An Item To Add...")
-    }
+    };
+  };
+
+  deleteTodo = (index: number): void => {
+    todo.splice(index, 1);
+    setTodo([...todo]);
   }
 
   return (
@@ -48,12 +56,10 @@ export default function Index() {
         <SafeAreaView>
           <FlatList
             data={todo}
-            renderItem={({ item }) => {
-              return <Item title={item} />
+            renderItem={({ item, index }) => {
+              return <Item title={item} index={index} />
             }}
-            keyExtractor={index => index}
           />
-
         </SafeAreaView>
       </View>}
     </View>
