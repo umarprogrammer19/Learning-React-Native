@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList, Alert, ScrollView, Pressable, Modal } from "react-native";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList, Alert, Pressable, Modal } from "react-native";
 
 interface ItemProps {
   title: string;
