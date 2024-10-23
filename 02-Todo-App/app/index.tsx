@@ -1,10 +1,18 @@
+import { useState } from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
 
 export default function Index() {
+  
+  // State For Getting Text
+  const [text, setText] = useState<string>("");
+  // State For Getting Todo List Items 
+  const [todo, setTodo] = useState<string[]>([]);
+
+
   return (
     <View style={TodoContainer}>
       <Text style={TodoHeading}>Todo App.</Text>
-      <TextInput placeholder="Enter Todo" style={TodoInput}></TextInput>
+      <TextInput placeholder="Enter Todo" style={TodoInput} value={text} onChangeText={setText}></TextInput>
       <TouchableOpacity style={TodoButton}>
         <Text style={TodoButtonText}>Add Item</Text>
       </TouchableOpacity>
