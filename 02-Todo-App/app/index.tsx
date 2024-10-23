@@ -14,6 +14,9 @@ const Item = ({ title, index }: ItemProps) => (
     <TouchableOpacity style={TodoDeleteButton}>
       <Text style={TodoDeleteButtonText} onPress={() => deleteTodo(index)}>Delete</Text>
     </TouchableOpacity>
+    <TouchableOpacity style={TodoEditButton}>
+      <Text style={TodoDeleteButtonText}>Edit</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -64,7 +67,7 @@ export default function Index() {
   );
 }
 
-const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoitem, TodoTitle, TodoDeleteButton, TodoDeleteButtonText, TodoScrollView } = StyleSheet.create({
+const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoitem, TodoTitle, TodoDeleteButton, TodoDeleteButtonText, TodoScrollView, TodoEditButton } = StyleSheet.create({
   TodoContainer: {
     flex: 1,
     backgroundColor: "black",
@@ -116,5 +119,9 @@ const { TodoContainer, TodoHeading, TodoInput, TodoButton, TodoButtonText, Todoi
     textAlign: "center",
     padding: 5,
     fontSize: 20,
+  },
+  TodoEditButton: {
+    backgroundColor: "green",
+    margin: 10,
   }
 })
